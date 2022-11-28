@@ -202,8 +202,39 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  let str = '';
+  const topLeft = '┌';
+  const topRight = '┐';
+  const lineWidth = '─';
+  const lineHeigth = '│';
+  const buttonLeft = '└';
+  const buttonRight = '┘';
+  for (let i = 0; i < height; i += 1) {
+    for (let j = 0; j < width; j += 1) {
+      if (i === 0 && j === 0) {
+        str += topLeft;
+      } else if (i === 0 && j === width - 1) {
+        str += topRight;
+      } else if (i === 0) {
+        str += lineWidth;
+      } else if (i === height - 1 && j === 0) {
+        str += buttonLeft;
+      } else if (i === height - 1 && j === width - 1) {
+        str += buttonRight;
+      } else if (i === height - 1) {
+        str += lineWidth;
+      } else if (i > 0 && j === 0) {
+        str += lineHeigth;
+      } else if (i > 0 && j === width - 1) {
+        str += lineHeigth;
+      } else {
+        str += ' ';
+      }
+    }
+    str += '\n';
+  }
+  return str;
 }
 
 
@@ -223,8 +254,29 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const smollLet = 'abcdefghijklmnopqrstuvwxyz';
+  const bigLet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let i = 0;
+  let current = '';
+
+  while (i < str.length) {
+    const isUpperCase = str[i].toUpperCase() === str[i];
+    const alphabet = isUpperCase ? bigLet : smollLet;
+
+    if (alphabet.indexOf(str[i]) >= 0) {
+      let step = alphabet.indexOf(str[i]) + 13;
+      if (alphabet[step] === undefined) {
+        step = alphabet.indexOf(str[i]) + 13 - alphabet.length;
+      }
+      current += alphabet[step];
+    } else {
+      current += str[i];
+    }
+    i += 1;
+  }
+
+  return current;
 }
 
 /**
@@ -240,8 +292,8 @@ function encodeToRot13(/* str */) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+function isString(value) {
+  return typeof value === 'string' || value instanceof String;
 }
 
 
@@ -269,8 +321,12 @@ function isString(/* value */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  return ['A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣',
+    'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦',
+    'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥',
+    'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠',
+  ].indexOf(value);
 }
 
 
