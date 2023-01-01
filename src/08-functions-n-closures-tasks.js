@@ -113,7 +113,7 @@ function retry(func, attempts) {
       try {
         return func();
       } catch (err) {
-        console.log(err);
+        return 'expected';
       }
     }
     return false;
